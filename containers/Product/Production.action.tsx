@@ -2,6 +2,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 import { ICreateProduct, IProduct } from "./Product.types";
+import callApi from "../../utils/fetcher";
 
 export const useProductAction = (token?: string) => {
   const { isOpen, onToggle, onClose } = useDisclosure();
@@ -13,11 +14,12 @@ export const useProductAction = (token?: string) => {
   };
 
   const getListProduct = (p?: number) => {
-    axios
-      .get(
-        `http://localhost:5000/api/v1/product?page=${p ?? 1}&limit=8&search`,
-        config
-      )
+    callApi({
+      ctx: {},
+      uri: "/product",
+      method: "GET",
+      params: { page: p ?? 1, limit: 8, search: "" },
+    })
       .then(function (response) {
         console.log(response);
         setProducts(response.data.data);
@@ -29,8 +31,12 @@ export const useProductAction = (token?: string) => {
   };
 
   const addProduct = (data: ICreateProduct) => {
-    axios
-      .post("http://localhost:5000/api/v1/product/createproduct", data, config)
+    callApi({
+      ctx: {},
+      uri: "/product/createproduct",
+      method: "POST",
+      params: data,
+    })
       .then(function (response) {
         console.log(response);
         getListProduct();

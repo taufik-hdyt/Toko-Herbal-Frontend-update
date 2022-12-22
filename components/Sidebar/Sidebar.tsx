@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Flex,
   GridItem,
@@ -7,10 +6,12 @@ import {
   Link,
   Stack,
   Text,
-  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { memo } from "react";
+import { memo, useState } from "react";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { destroyCookie } from "nookies";
+import Router from "next/router";
 
 interface IProps {
   onOpenModal: () => void;
@@ -49,6 +50,14 @@ const Sidebar: React.FC<IProps> = ({
               alt="addProduct"
             />
           </Button>
+          <Stack cursor="pointer">
+            <ExternalLinkIcon
+              onClick={() => {
+                destroyCookie(null, "token"); //hapus cookie fungsi logout
+                Router.push("/login");
+              }}
+            />
+          </Stack>
         </VStack>
 
         {isOpenSideBar === true && (

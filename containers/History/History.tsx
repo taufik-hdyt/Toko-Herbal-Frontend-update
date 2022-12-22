@@ -1,11 +1,21 @@
 import { Box, Grid, GridItem, Text, VStack } from "@chakra-ui/react";
 import { memo } from "react";
-import Chart from "./partials/Chart";
 import {
   bubleStyles1,
   bubleStyles2,
   bubleStyles3,
 } from "./partials/History.style";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+} from "@chakra-ui/react";
 
 const History: React.FC = (): JSX.Element => {
   return (
@@ -71,7 +81,27 @@ const History: React.FC = (): JSX.Element => {
           </Box>
         </GridItem>
       </Grid>
-      {/* <Chart /> */}
+
+      <TableContainer mt="6">
+        <Table variant="striped">
+          <Thead>
+            <Tr>
+              <Th>User</Th>
+              <Th>Produk yang di pesan</Th>
+              <Th>Waktu Pemesanan</Th>
+              <Th>Qty</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            <Tr>
+              <Td>inches</Td>
+              <Td>millimetres (mm)</Td>
+              <Td isNumeric>25.4</Td>
+              <Td isNumeric>25.4</Td>
+            </Tr>
+          </Tbody>
+        </Table>
+      </TableContainer>
     </Box>
   );
 };

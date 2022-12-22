@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
   HStack,
   Modal,
   ModalBody,
@@ -20,6 +19,7 @@ import { clearCard, ICartItem } from "../../redux/slices/cart.slices";
 import ListCheckOut from "./partials/ListCheckOut";
 import nookies from "nookies";
 import axios from "axios";
+import utils from "../../utils/fetcher";
 
 interface IProps {
   isOpen: boolean;
@@ -47,7 +47,6 @@ const ModalCheckOut: React.FC<IProps> = ({ isOpen, onClose }): JSX.Element => {
       }),
     };
 
-    console.log(body);
     axios
       .post("http://localhost:5000/api/v1/order", body, config)
       .then(function (response) {

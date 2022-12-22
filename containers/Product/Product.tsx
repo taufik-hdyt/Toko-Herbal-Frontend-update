@@ -49,35 +49,50 @@ const Product: React.FC<IProps> = ({ isOpenModal, token }): JSX.Element => {
     }
   }, [isOpenModal]);
   return (
-    <Grid templateColumns="1fr 1fr 1fr 1fr" gap="2" h="full">
-      {products?.map((product: any, index: number) => {
-        return (
-          <GridItem key={`produk-item-${index}`}>
-            <Card
-              p="2"
-              w="full"
-              h="full"
-              cursor="pointer"
-              onClick={() => dispath(addToCart(product))}
-            >
-              <Image src="/images/product1.jpg" alt="cengplus" />
-              <Text mt="2">{product.name}</Text>
-              <Flex>
-                <Box>Rp.{product.price}</Box>
-                <Spacer />
-                <Box>{product.stock}</Box>
-              </Flex>
-            </Card>
-          </GridItem>
-        );
-      })}
+    <Stack>
+      <Grid
+        templateColumns={["1fr", "1fr 1fr", "1fr 1fr 1fr", "1fr 1fr 1fr 1fr"]}
+        gap="2"
+        h="full"
+      >
+        {products?.map((product: any, index: number) => {
+          return (
+            <GridItem key={`produk-item-${index}`} h="full">
+              <Card
+                p="2"
+                w="full"
+                h="full"
+                cursor="pointer"
+                onClick={() => dispath(addToCart(product))}
+              >
+                <Image src="/images/product1.jpg" alt="cengplus" />
+                <Text mt="2">{product.name}</Text>
+                <Flex>
+                  <Box>Rp.{product.price}</Box>
+                  <Spacer />
+                  <Box>{product.stock}</Box>
+                </Flex>
+              </Card>
+            </GridItem>
+          );
+        })}
 
-      <ModalAddProduct
-        addProduct={addProduct}
-        isOpen={isOpen}
-        onClose={onClose}
-      />
-    </Grid>
+        <ModalAddProduct
+          addProduct={addProduct}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
+      </Grid>
+
+      <Stack w="full" align="center">
+        <Pagination
+          onChange={handlePageClick}
+          pageSize={meta?.limit ?? 0}
+          current={meta?.page ?? 0}
+          total={meta?.totalData ?? 0}
+        />
+      </Stack>
+    </Stack>
   );
 };
 

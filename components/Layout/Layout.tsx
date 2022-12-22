@@ -17,7 +17,7 @@ const Layout: React.FC<ILayoutProps> = ({
     <Grid
       templateAreas={`"header header cart1"
               "nav main cart2"
-              "nav footer cart2"`}
+              "nav main cart2"`}
       gridTemplateRows={"50px 1fr 30px"}
       gridTemplateColumns={"auto 1fr 400px"}
       h="100vh"
@@ -33,8 +33,6 @@ const Layout: React.FC<ILayoutProps> = ({
       <GridItem area={"main"} overflowY="auto">
         {children}
       </GridItem>
-
-      <Footer token={token} />
     </Grid>
   );
 };
