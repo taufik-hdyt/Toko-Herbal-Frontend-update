@@ -7,8 +7,9 @@ import {
   HStack,
   Image,
   Stack,
+  Tooltip,
 } from "@chakra-ui/react";
-import { memo } from "react";
+import { memo, useState } from "react";
 interface IProps {
   toggleOpenSideBar: () => void;
 }
@@ -29,8 +30,9 @@ const Header: React.FC<IProps> = ({ toggleOpenSideBar }): JSX.Element => {
         <Heading as="h2" size="md">
           Toko Herbal
         </Heading>
-
-        <SearchIcon />
+        <Tooltip label="Cari Produk" bg="whatsapp.600">
+          <SearchIcon />
+        </Tooltip>
       </HStack>
     </GridItem>
   );

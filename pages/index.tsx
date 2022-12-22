@@ -3,6 +3,7 @@ import { NextPage, NextPageContext } from "next";
 import Layout from "../components/Layout/Layout";
 import Product from "../containers/Product/Product";
 import nookies from "nookies";
+import axios from "axioss";
 
 interface IProps {
   token: string;

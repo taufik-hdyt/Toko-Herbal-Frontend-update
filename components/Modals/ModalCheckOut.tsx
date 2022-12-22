@@ -14,15 +14,54 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { memo } from "react";
+import { memo, FormEvent } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { clearCard, ICartItem } from "../../redux/slices/cart.slices";
+import ListCheckOut from "./partials/ListCheckOut";
+import nookies from "nookies";
+import axios from "axios";
+
 interface IProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 const ModalCheckOut: React.FC<IProps> = ({ isOpen, onClose }): JSX.Element => {
+  const { cartItems } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+  const cookies = nookies.get();
+  const token = cookies?.token ?? null;
+
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  const order = (e: FormEvent) => {
+    e.preventDefault();
+    const body = {
+      cart_items: cartItems.map((e) => {
+        return {
+          id_product: e.id,
+          qty: e.qty,
+        };
+      }),
+    };
+
+    console.log(body);
+    axios
+      .post("http://localhost:5000/api/v1/order", body, config)
+      .then(function (response) {
+        console.log(response);
+        onClose();
+        dispatch(clearCard());
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+    <Modal isOpen={isOpen} onClose={onClose} size="xl" scrollBehavior="outside">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
@@ -46,26 +85,42 @@ const ModalCheckOut: React.FC<IProps> = ({ isOpen, onClose }): JSX.Element => {
             </Text>
 
             <Text fontSize="16px" color="black" fontWeight="semibold">
-              Pevita Pearce
+              admin
             </Text>
           </HStack>
         </ModalHeader>
         <ModalBody>
-          <VStack mt="3" align="stretch" bg="green.100">
-            <Heading>Hay</Heading>
+          <VStack mt="3" align="stretch">
+            {cartItems?.map((cartItem: ICartItem, index: number) => {
+              return (
+                <ListCheckOut
+                  cartItem={cartItem}
+                  key={`produk-item-${index}`}
+                />
+              );
+            })}
           </VStack>
           <HStack mt="6" justify="end">
-            <Text fontSize="20px" color="black" fontWeight="semibold">
+            <Text color="black" fontWeight="semibold">
               Total :
             </Text>
-            <Text fontSize="20px" color="black" fontWeight="semibold">
-              Rp. 15000000
+            <Text color="black" fontWeight="semibold">
+              Rp.
+              {cartItems
+                ?.map((e) => e.price * e.qty)
+                .reduce((a, b) => a + b, 0) ?? 0}
             </Text>
           </HStack>
         </ModalBody>
 
         <ModalFooter display="inline-block">
-          <Button fontSize="20px" w="full" bg="#F24F8A" color="white">
+          <Button
+            fontSize="20px"
+            w="full"
+            bg="#F24F8A"
+            color="white"
+            onClick={order}
+          >
             Print
           </Button>
           <Text textAlign="center" fontSize="20px" fontWeight="semibold">

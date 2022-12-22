@@ -10,6 +10,7 @@ import { ILayoutProps } from "./Layout.types";
 const Layout: React.FC<ILayoutProps> = ({
   children,
   onOpenModal,
+  token,
 }): JSX.Element => {
   const { isOpen, onToggle } = useDisclosure();
   return (
@@ -33,7 +34,7 @@ const Layout: React.FC<ILayoutProps> = ({
         {children}
       </GridItem>
 
-      <Footer />
+      <Footer token={token} />
     </Grid>
   );
 };

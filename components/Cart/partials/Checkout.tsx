@@ -2,17 +2,24 @@ import {
   Box,
   Button,
   HStack,
+  Image,
   Spacer,
   Stack,
   Text,
+  Tooltip,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import { memo } from "react";
+import { useAppDispatch, useAppSelector } from "../../../hooks/hooks";
+import { clearCard } from "../../../redux/slices/cart.slices";
 import ModalCheckOut from "../../Modals/ModalCheckOut";
 
 const CheckOut: React.FC = (): JSX.Element => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const { cartItems } = useAppSelector((state) => state.cart);
+  const dispath = useAppDispatch();
+
   return (
     <Stack pt="6" pr="4">
       <HStack>
@@ -21,7 +28,12 @@ const CheckOut: React.FC = (): JSX.Element => {
         </Box>
         <Spacer />
         <Box>
-          <Text>Rp. 15000</Text>
+          <Text>
+            Rp.
+            {cartItems
+              ?.map((e) => e.price * e.qty)
+              .reduce((a, b) => a + b, 0) ?? 0}
+          </Text>
         </Box>
       </HStack>
 
@@ -32,6 +44,7 @@ const CheckOut: React.FC = (): JSX.Element => {
           fontWeight="bold"
           rounded="0"
           w="full"
+          disabled={cartItems.length === 0}
           onClick={onOpen}
         >
           Checkout
@@ -43,6 +56,8 @@ const CheckOut: React.FC = (): JSX.Element => {
           fontWeight="bold"
           rounded="0"
           w="full"
+          onClick={() => dispath(clearCard())}
+          disabled={cartItems.length === 0}
         >
           Cancel
         </Button>

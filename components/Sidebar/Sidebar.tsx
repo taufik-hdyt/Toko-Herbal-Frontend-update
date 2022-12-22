@@ -4,6 +4,7 @@ import {
   Flex,
   GridItem,
   Image,
+  Link,
   Stack,
   Text,
   useDisclosure,
@@ -30,11 +31,15 @@ const Sidebar: React.FC<IProps> = ({
       <Flex>
         <VStack spacing="6" mt="8">
           <Button bg="white">
-            <Image src="/images/product.png" alt="product" />
+            <Link href="/">
+              <Image src="/images/product.png" alt="product" />
+            </Link>
           </Button>
 
           <Button bg="white">
-            <Image src="/images/history.png" alt="history" />
+            <Link href="/history">
+              <Image src="/images/history.png" alt="history" />
+            </Link>
           </Button>
 
           <Button bg="white">
